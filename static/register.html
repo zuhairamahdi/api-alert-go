@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>Register - API Monitor</title>
+    <!-- CSS files -->
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler-flags.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler-payments.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler-vendors.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/demo.min.css" rel="stylesheet"/>
+    <style>
+        @import url('https://rsms.me/inter/inter.css');
+        :root {
+            --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+        }
+        body {
+            font-feature-settings: "cv03", "cv04", "cv11";
+        }
+    </style>
+</head>
+<body class="d-flex flex-column">
+    <div class="page page-center">
+        <div class="container container-tight py-4">
+            <div class="text-center mb-4">
+                <a href="." class="navbar-brand navbar-brand-autodark">
+                    <h1>API Monitor</h1>
+                </a>
+            </div>
+            <div class="card card-md">
+                <div class="card-body">
+                    <h2 class="h2 text-center mb-4">Create new account</h2>
+                    <form id="register-form" autocomplete="off">
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" name="name" placeholder="Your name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email address</label>
+                            <input type="email" class="form-control" name="email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <div class="input-group input-group-flat">
+                                <input type="password" class="form-control" name="password" placeholder="Create a password" required>
+                                <span class="input-group-text">
+                                    <a href="#" class="link-secondary" title="Show password" data-bs-toggle="tooltip" id="toggle-password">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="2" /><path d="M22 12c-2.4 4 -5.4 6 -10 6c-4.6 0 -7.6 -2 -10 -6c2.4 -4 5.4 -6 10 -6c4.6 0 7.6 2 10 6" /></svg>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Confirm Password</label>
+                            <div class="input-group input-group-flat">
+                                <input type="password" class="form-control" name="confirm_password" placeholder="Confirm password" required>
+                                <span class="input-group-text">
+                                    <a href="#" class="link-secondary" title="Show password" data-bs-toggle="tooltip" id="toggle-confirm-password">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="2" /><path d="M22 12c-2.4 4 -5.4 6 -10 6c-4.6 0 -7.6 -2 -10 -6c2.4 -4 5.4 -6 10 -6c4.6 0 7.6 2 10 6" /></svg>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-check">
+                                <input type="checkbox" class="form-check-input" name="terms" required/>
+                                <span class="form-check-label">I agree to the <a href="/terms" tabindex="-1">terms of service</a> and <a href="/privacy" tabindex="-1">privacy policy</a></span>
+                            </label>
+                        </div>
+                        <div class="form-footer">
+                            <button type="submit" class="btn btn-primary w-100">Create new account</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="text-center text-muted mt-3">
+                Already have account? <a href="/login" tabindex="-1">Sign in</a>
+            </div>
+        </div>
+    </div>
+    <!-- Tabler Core -->
+    <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/js/tabler.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/js/demo.min.js"></script>
+    <script>
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            
+            if (data.password !== data.confirm_password) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: data.name,
+                        email: data.email,
+                        password: data.password
+                    })
+                });
+                
+                if (response.ok) {
+                    window.location.href = '/login';
+                } else {
+                    const error = await response.json();
+                    alert(error.error || 'Registration failed');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Registration failed');
+            }
+        });
+
+        // Toggle password visibility
+        function setupPasswordToggle(toggleId, inputName) {
+            document.getElementById(toggleId).addEventListener('click', (e) => {
+                e.preventDefault();
+                const passwordInput = document.querySelector(`input[name="${inputName}"]`);
+                const icon = e.currentTarget.querySelector('svg');
+                
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.innerHTML = '<path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="3" y1="3" x2="21" y2="21" /><path d="M10.584 10.587a2 2 0 0 0 2.828 2.83" /><path d="M9.363 5.365a9 9 0 1 1 12.728 12.728a9 9 0 0 1 -12.728 -12.728" /></svg>';
+                } else {
+                    passwordInput.type = 'password';
+                    icon.innerHTML = '<path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="2" /><path d="M22 12c-2.4 4 -5.4 6 -10 6c-4.6 0 -7.6 -2 -10 -6c2.4 -4 5.4 -6 10 -6c4.6 0 7.6 2 10 6" /></svg>';
+                }
+            });
+        }
+
+        setupPasswordToggle('toggle-password', 'password');
+        setupPasswordToggle('toggle-confirm-password', 'confirm_password');
+    </script>
+</body>
+</html> 
