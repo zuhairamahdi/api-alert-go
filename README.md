@@ -1,129 +1,129 @@
 # API Monitor
 
-application built with Go and Echo framework for monitoring API endpoints' health. The application allows you to register endpoints and automatically checks their health status at specified intervals.
+A robust API health monitoring system built with Go and PostgreSQL. Monitor multiple endpoints with customizable check intervals, receive real-time status updates, and get alerts for persistent failures.
 
 ## Features
 
-- Register and manage API endpoints to monitor
-- Create and manage monitoring schedules
-- Automatic health checks at configurable intervals
-- Track endpoint status and response times
-- RESTful API for managing endpoints and schedules
-- Concurrent health checking for multiple endpoints
-- PostgreSQL database for persistent storage
+- **Real-time Monitoring**: Continuous health checks of your API endpoints
+- **Customizable Intervals**: Support for multiple check intervals:
+  - 5 seconds (for testing)
+  - 1 minute
+  - 5 minutes
+  - 15 minutes
+  - 30 minutes
+- **Smart Scheduling**: Automatic grouping of endpoints by interval for efficient monitoring
+- **Failure Detection**: Alerts for persistent failures (3 consecutive non-2xx responses)
+- **User Management**:
+  - JWT-based authentication
+  - User registration and login
+  - Subscription-based access control
+- **Endpoint Management**:
+  - Add/remove endpoints
+  - Set custom check intervals
+  - View endpoint status and history
+- **Subscription System**:
+  - Free tier with trial period
+  - Endpoint limits
+  - Interval restrictions based on subscription level
+
+## Tech Stack
+
+- **Backend**: Go
+- **Database**: PostgreSQL
+- **Authentication**: JWT
+- **ORM**: GORM
+- **Web Framework**: Echo
+- **Frontend**: HTML, JavaScript, Tabler UI
 
 ## Getting Started
 
 ### Prerequisites
 
-- Go 1.21 or higher (for local development)
-- Docker and Docker Compose (for containerized deployment)
-- PostgreSQL (for local development)
+- Go 1.21 or higher
+- PostgreSQL
+- Docker (optional)
 
-### Local Development
+### Installation
 
 1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/api-monitor.git
-cd api-monitor
-```
+   ```bash
+   git clone https://github.com/zuhairamahdi/api-alert-go.git
+   cd api-alert-go
+   ```
 
 2. Install dependencies:
-```bash
-go mod download
-```
+   ```bash
+   go mod download
+   ```
 
-3. Set up the database:
-```bash
-createdb api_monitor
-```
+3. Set up environment variables:
+   ```bash
+   export DB_HOST=localhost
+   export DB_PORT=5432
+   export DB_USER=postgres
+   export DB_PASSWORD=postgres
+   export DB_NAME=api_monitor
+   ```
 
 4. Run the application:
-```bash
-go run main.go
-```
+   ```bash
+   go run main.go
+   ```
 
-The server will start on `http://localhost:8080`
+### Docker Setup
 
-### Docker Deployment
+1. Build and run with Docker Compose:
+   ```bash
+   docker-compose up --build
+   ```
 
-1. Clone the repository:
-```bash
-git clone https://github.com/zuhairamahdi/api-alert-go.git
-cd api-alert-go
-```
+## Usage
 
-2. Build and run with Docker Compose:
-```bash
-docker-compose up --build
-```
-
-The application will be available at `http://localhost:8080`
+1. Register a new account at `/register`
+2. Log in at `/login`
+3. Access the dashboard at `/dashboard`
+4. Add endpoints with your desired check intervals
+5. Monitor endpoint health in real-time
 
 ## API Endpoints
 
-### Endpoints Management
+### Public Endpoints
+- `POST /register` - Register a new user
+- `POST /login` - User login
 
-- `POST /endpoints` - Create a new endpoint to monitor
-  ```json
-  {
-    "url": "https://api.example.com/health",
-    "interval": 30
-  }
-  ```
+### Protected Endpoints
+- `GET /api/user` - Get user information
+- `PUT /api/user` - Update user profile
+- `GET /api/subscription` - Get subscription details
+- `POST /api/endpoints` - Create a new endpoint
+- `GET /api/endpoints` - List all endpoints
+- `GET /api/endpoints/:id` - Get endpoint details
+- `PUT /api/endpoints/:id` - Update endpoint
+- `DELETE /api/endpoints/:id` - Delete endpoint
 
-- `GET /endpoints` - List all monitored endpoints
-- `GET /endpoints/:id` - Get details of a specific endpoint
-- `PUT /endpoints/:id` - Update an endpoint's configuration
-- `DELETE /endpoints/:id` - Remove an endpoint from monitoring
+## Health Monitoring
 
-### Schedule Management
+The system performs health checks by:
+1. Grouping endpoints by interval
+2. Creating schedules for each interval group
+3. Running health checks at the specified intervals
+4. Updating endpoint status in real-time
+5. Alerting on persistent failures (3 consecutive non-2xx responses)
 
-- `POST /schedules` - Create a new monitoring schedule
-  ```json
-  {
-    "name": "Daily Check",
-    "interval": 3600,
-    "endpoints": [1, 2, 3]
-  }
-  ```
+## Contributing
 
-- `GET /schedules` - List all monitoring schedules
-- `GET /schedules/:id` - Get details of a specific schedule
-- `PUT /schedules/:id` - Update a schedule's configuration
-- `DELETE /schedules/:id` - Remove a schedule
-
-## Example Usage
-
-1. Create a new endpoint to monitor:
-```bash
-curl -X POST http://localhost:8080/endpoints \
-  -H "Content-Type: application/json" \
-  -d '{"url": "https://api.example.com/health", "interval": 30}'
-```
-
-2. Create a new schedule:
-```bash
-curl -X POST http://localhost:8080/schedules \
-  -H "Content-Type: application/json" \
-  -d '{"name": "Hourly Check", "interval": 3600, "endpoints": [1]}'
-```
-
-3. List all schedules:
-```bash
-curl http://localhost:8080/schedules
-```
-
-## Environment Variables
-
-The following environment variables can be configured:
-
-- `DB_HOST` - PostgreSQL host (default: localhost)
-- `DB_PORT` - PostgreSQL port (default: 5432)
-- `DB_USER` - PostgreSQL user (default: postgres)
-- `DB_PASSWORD` - PostgreSQL password (default: postgres)
-- `DB_NAME` - PostgreSQL database name (default: api_monitor)
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- [Echo](https://echo.labstack.com/) - Web framework
+- [GORM](https://gorm.io/) - ORM library
+- [Tabler](https://tabler.io/) - UI components 
