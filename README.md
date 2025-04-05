@@ -49,8 +49,8 @@ The server will start on `http://localhost:8080`
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/api-monitor.git
-cd api-monitor
+git clone https://github.com/zuhairamahdi/api-alert-go.git
+cd api-alert-go
 ```
 
 2. Build and run with Docker Compose:
