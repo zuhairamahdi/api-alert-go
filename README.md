@@ -1,6 +1,6 @@
 # API Monitor
 
-A SaaS application built with Go and Echo framework for monitoring API endpoints' health. The application allows you to register endpoints and automatically checks their health status at specified intervals.
+application built with Go and Echo framework for monitoring API endpoints' health. The application allows you to register endpoints and automatically checks their health status at specified intervals.
 
 ## Features
 
